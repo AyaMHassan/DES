@@ -50,7 +50,7 @@ int sbox_arr[8][4][16]={
         {2,1,14,7,4,10,8,13,15,12,9,0,3,5,6,11}
     }
 };
-int64_t sbox(int64_t x){
+uint64_t sbox(uint64_t x){
     int64_t res = 0;
     int sbox_input[8];
     int64_t sbox_output[8];
