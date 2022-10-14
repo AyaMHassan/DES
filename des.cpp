@@ -114,7 +114,7 @@ uint64_t sbox(uint64_t x){
     }
     int index = 7;
     int w = 0;
-    for(int i = 0; i < size(sbox_input); i++){
+    for(int i = 0; i < 8; i++){
         int x = sbox_input[i];
         uint8_t row1 = get_bits(x, 5, 1);
         uint8_t row2 = get_bits(x, 0, 1);
@@ -430,15 +430,16 @@ int main(int argc, char* argv[])
     //arrays of 64-bit numbers
     uint64_t* plaintext = read(content);
     // Close the file
+    MyReadFile.close();
+    // Create and open a text file
+    ofstream MyFile(out_path);
     int t;
     if (eOrD == "encryption") t = 0;
     else t = 1;
-    string res = "";
     for (int i = 0; i < n; i++) {
-        res += decToHexa(des(plaintext[i], key, t));
+        MyFile << decToHexa(des(plaintext[i], key, t));
     }
-    output_file(out_path, res);
-    MyReadFile.close();
-
+    // Close the file
+    MyFile.close();
     return 0;
 }
