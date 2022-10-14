@@ -373,7 +373,7 @@ uint64_t des(uint64_t seq, uint64_t key,int t) {
 int main(int argc,char* argv[])
 {
     // check validation
-    if (argc < 4)
+    if (argc < 5)
     {
         return 1;
     }
@@ -384,6 +384,8 @@ int main(int argc,char* argv[])
     uint64_t key = hexa2Bin(k);
     // output path
     string out_path = argv[3];
+    // encryption or decryption
+    string eOrD = argv[4];
     // Create a text string, which is used to output the text file
     string content;
     string text;
