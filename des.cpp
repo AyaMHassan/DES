@@ -1,5 +1,8 @@
 #include <iostream>
+#include <string>    
+#include <fstream>
 using namespace std;
+int n;
 int sbox_arr[8][4][16]={
     {
        {14,4,13,1,2,15,11,8,3,10,6,12,5,9,0,7},
@@ -98,6 +101,130 @@ uint64_t shift_left_2(uint64_t a){
     res = shift_left_1(res);
     return res;
 }
-int main(int argc, const char * argv[]) {
+//
+uint64_t set_bit(uint64_t bits, uint8_t pos, uint8_t value)
+{
+   uint64_t mask = 1LL << pos;
+   if (value)
+       bits |= mask;
+   else
+       bits &= ~mask;
+   return bits;
+}
+// set specific bits at position = pos with certain value = value
+uint64_t set_bits(uint64_t bits, uint8_t pos, uint64_t value)
+{
+    uint64_t mask = value << pos;
+    bits |= mask;
+    return bits;
+}
+// convert one digit in hex to decimal or binary
+uint64_t onehexa2Bin(char hexa)
+{
+    if (hexa == '0') return 0;
+    else if (hexa == '1') return 1;
+    else if (hexa == '2') return 2;
+    else if (hexa == '3') return 3;
+    else if (hexa == '4') return 4;
+    else if (hexa == '5') return 5;
+    else if (hexa == '6') return 6;
+    else if (hexa == '7') return 7;
+    else if (hexa == '8') return 8;
+    else if (hexa == '9') return 9;
+    else if (hexa == 'A' || hexa == 'a') return 10;
+    else if (hexa == 'B' || hexa == 'b') return 11;
+    else if (hexa == 'C' || hexa == 'c') return 12;
+    else if (hexa == 'D' || hexa == 'd') return 13;
+    else if (hexa == 'E' || hexa == 'e') return 14;
+    else if (hexa == 'F' || hexa == 'f') return 15;
+    
+}
+// convert hex number to decimal or binary
+uint64_t hexa2Bin(string hexa_num)
+{
+    uint64_t output = 0;
+    int pos = 0;
+    int size = hexa_num.size();
+    for (int i = 0; i < size; i++)
+    {
+        uint64_t num = onehexa2Bin(hexa_num[size - i - 1]);
+        output = set_bits(output, pos, num);
+        pos = pos + 4;
+    }
+    return output;
+}
+
+// des permutation
+uint64_t permutation(int permutation_arr[], uint64_t plaintext, int in, int size)
+{
+    uint64_t output = 0;
+    int d = 64 - in;
+    for (int i = 0; i < size; i++)
+    {
+        int index = get_bits(plaintext, 64 - permutation_arr[i] - d, 0b1);
+        output = set_bit(output, size - 1 - i, index);
+    }
+    return output;
+}
+
+// convert hex text to array of 64-bit sequence
+uint64_t* read(string content)
+{
+    // size of 64-bit numbers
+    int content_size = content.size();
+    n = (4 * content_size) / 64;
+    // array of 64-bit numbers
+    uint64_t* plaintext = new  uint64_t[n];
+    int j = 0;
+    int k = 0;
+    string num ="";
+    // fill the array of 64-bit numbers
+    for (int i = 0; i< content_size; i++)
+    {
+        num = num + content[i];
+        k++;
+        if (k == 16)
+        {
+            k = 0;
+            plaintext[j] = hexa2Bin(num);
+            num = "";
+            j++;
+        }
+    }
+    return plaintext;
+}
+//
+int main(int argc,char* argv[])
+{
+    // check validation
+    if (argc < 4)
+    {
+        return 1;
+    }
+    // input path
+    string in_path = argv[1];
+    //key
+    string k = argv[2];
+    uint64_t key = hexa2Bin(k);
+    // output path
+    string out_path = argv[3];
+    // Create a text string, which is used to output the text file
+    string content;
+    string text;
+
+    // Read from the text file
+    ifstream MyReadFile(in_path); //filename.txt
+
+    // Use a while loop together with the getline() function to read the file line by line
+    while (getline (MyReadFile, text)) {
+        // append text to content
+        content = content + text;
+    }
+
+    //arrays of 64-bit numbers
+    uint64_t* plaintext = read(content);    
+    // Close the file
+    MyReadFile.close();
+
     return 0;
 }
