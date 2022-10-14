@@ -435,7 +435,7 @@ int main(int argc, char* argv[])
     else t = 1;
     string res = "";
     for (int i = 0; i < n; i++) {
-        res += des(plaintext[i], key, t);
+        res += decToHexa(des(plaintext[i], key, t));
     }
     output_file(out_path, res);
     MyReadFile.close();
