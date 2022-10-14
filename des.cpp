@@ -370,7 +370,7 @@ uint64_t des(uint64_t seq, uint64_t key,int t) {
     return permutation(inv_p, seq_swap, 64,64);
 }
 //
-int main(int argc,char* argv[])
+int main(int argc, char* argv[])
 {
     // check validation
     if (argc < 5)
@@ -394,14 +394,22 @@ int main(int argc,char* argv[])
     ifstream MyReadFile(in_path); //filename.txt
 
     // Use a while loop together with the getline() function to read the file line by line
-    while (getline (MyReadFile, text)) {
+    while (getline(MyReadFile, text)) {
         // append text to content
         content = content + text;
     }
 
     //arrays of 64-bit numbers
-    uint64_t* plaintext = read(content);    
+    uint64_t* plaintext = read(content);
     // Close the file
+    int t;
+    if (eOrD == "encryption") t = 0;
+    else t = 1;
+    string res = "";
+    for (int i = 0; i < n; i++) {
+        res += des(plaintext[i], key, t);
+    }
+    output_file(out_path, res);
     MyReadFile.close();
 
     return 0;
