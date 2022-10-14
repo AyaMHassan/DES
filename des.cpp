@@ -53,10 +53,19 @@ int sbox_arr[8][4][16]={
         {2,1,14,7,4,10,8,13,15,12,9,0,3,5,6,11}
     }
 };
+uint64_t set_bit_original (uint64_t bits, uint8_t pos, uint8_t value)
+{
+   uint64_t mask = 1LL << (63 - pos);
+   if (value)
+       bits |= mask;
+   else
+       bits &= ~mask;
+   return bits;
+}
 uint64_t sbox(uint64_t x){
-    int64_t res = 0;
+    uint64_t res = 0;
     int sbox_input[8];
-    int64_t sbox_output[8];
+    uint64_t sbox_output[8];
     int temp = 0;
     int i = 0;
     while(temp <= 42){
@@ -72,8 +81,8 @@ uint64_t sbox(uint64_t x){
         uint8_t row2 = get_bits(x, 0, 1);
         uint64_t col = get_bits(x, 1, 0b1111);
         uint64_t row = 0;
-        row = set_bit(row, 63, row2);
-        row = set_bit(row, 62, row1);
+        row = set_bit_original(row, 63, row2);
+        row = set_bit_original(row, 62, row1);
         sbox_output[i] = sbox_arr[index][row][col];
         res = res | (sbox_output[i] << w);
         w+=4;
