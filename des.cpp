@@ -312,9 +312,9 @@ void output_file(string path, string out) {
         }
 
     }
-    cout << p << endl;
+    //cout << p << endl;
     ofstream output;
-    output.open(p);
+    output.open(path);
     if (output.is_open())
     {
         output << out;
@@ -324,14 +324,14 @@ void output_file(string path, string out) {
     else cout << "File opening is fail";
 }
 uint64_t* keys(uint64_t key,int t) {
-    cout << key << endl;
+    //cout << key << endl;
     static uint64_t keys[16];
     uint64_t pc1= permutation(p_c1,key,64,56);
-    cout << "pc1  " << pc1 << endl;
+    //cout << "pc1  " << pc1 << endl;
     uint64_t key_right = get_bits(pc1, 0, 0xfffffff);
-    cout << "key_right  " << key_right << endl;
+    //cout << "key_right  " << key_right << endl;
     uint64_t key_left = get_bits(pc1, 28, 0xfffffff);
-    cout << "key_left  " << key_left << endl;
+    //cout << "key_left  " << key_left << endl;
     
     for (int i = 1; i < 17; i++) {
         if ((i == 1) || (i == 2) || (i == 9) || (i == 16)) {
@@ -342,12 +342,12 @@ uint64_t* keys(uint64_t key,int t) {
             key_right = shift_left_2(key_right);
             key_left = shift_left_2(key_left);
         }
-        cout << "key_right  " <<i<<":   " << key_right << endl;
-        cout << "key_left  " << i << ":   " << key_left << endl;
+        //cout << "key_right  " <<i<<":   " << key_right << endl;
+        //cout << "key_left  " << i << ":   " << key_left << endl;
         uint64_t key_con= (key_right|(key_left << 28));
-        cout << "key_con  " << i << ":   " << key_con << endl;
+        //cout << "key_con  " << i << ":   " << key_con << endl;
         uint64_t key_round= permutation(p_c2, key_con, 56,48);
-        cout << "key_round  " << i << ":   " << key_round << endl;
+        //cout << "key_round  " << i << ":   " << key_round << endl;
         if (t == 0) keys[i - 1] = key_round;
         else keys[16 - i ] = key_round;
 
@@ -368,21 +368,21 @@ uint64_t f_function(uint64_t n, uint64_t k) {
 
 uint64_t des(uint64_t seq, uint64_t* keys_, int t) {
     
-    cout << "------------" << endl;
+    //cout << "------------" << endl;
     uint64_t seq_ip = permutation(init_p, seq, 64, 64);
-    cout << "seq_ip  " << ":   " << seq_ip << endl;
+    //cout << "seq_ip  " << ":   " << seq_ip << endl;
     uint64_t p_right = get_bits(seq_ip, 0, 0xffffffff);
-    cout << "p_right  " << ":   " << p_right << endl;
+    //cout << "p_right  " << ":   " << p_right << endl;
     uint64_t p_left = get_bits(seq_ip, 32, 0xffffffff);
-    cout << "p_left  " << ":   " << p_left << endl;
+    //cout << "p_left  " << ":   " << p_left << endl;
     for (int i = 1; i < 17; i++) {
         uint64_t lt = p_left;
         p_left = p_right;
-        cout << "f_fn  " << ":   " << f_function(p_right, keys_[i - 1]) << endl;
-        cout << "key " << i << ":   " << keys_[i - 1] << endl;
+        //cout << "f_fn  " << ":   " << f_function(p_right, keys_[i - 1]) << endl;
+        //cout << "key " << i << ":   " << keys_[i - 1] << endl;
         p_right = xor_logic(lt, f_function(p_right, keys_[i - 1]));
-        cout << p_left << " ......    " << p_right << "tl: " << lt << endl;
-        cout << "round " << i << ":  " << (p_right | (p_left << 32));
+        //cout << p_left << " ......    " << p_right << "tl: " << lt << endl;
+        //cout << "round " << i << ":  " << (p_right | (p_left << 32));
     }
 
     uint64_t seq_swap = (p_left | (p_right << 32));
