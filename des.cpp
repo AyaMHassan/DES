@@ -366,14 +366,12 @@ uint64_t f_function(uint64_t n, uint64_t k) {
     return permutation(per, n_sbox, 32,32);
 }
 
-uint64_t des(uint64_t seq, uint64_t key,int t) {
-    uint64_t* keys_;
-    if (t == 0) keys_ = keys(key,0);
-    else keys_ = keys(key,1);
+uint64_t des(uint64_t seq, uint64_t* keys_, int t) {
+    
     cout << "------------" << endl;
-    uint64_t seq_ip= permutation(init_p, seq, 64,64);
+    uint64_t seq_ip = permutation(init_p, seq, 64, 64);
     cout << "seq_ip  " << ":   " << seq_ip << endl;
-    uint64_t p_right= get_bits(seq_ip, 0, 0xffffffff);
+    uint64_t p_right = get_bits(seq_ip, 0, 0xffffffff);
     cout << "p_right  " << ":   " << p_right << endl;
     uint64_t p_left = get_bits(seq_ip, 32, 0xffffffff);
     cout << "p_left  " << ":   " << p_left << endl;
@@ -383,13 +381,13 @@ uint64_t des(uint64_t seq, uint64_t key,int t) {
         cout << "f_fn  " << ":   " << f_function(p_right, keys_[i - 1]) << endl;
         cout << "key " << i << ":   " << keys_[i - 1] << endl;
         p_right = xor_logic(lt, f_function(p_right, keys_[i - 1]));
-        cout << p_left << " ......    " << p_right << "tl: " <<lt << endl;
+        cout << p_left << " ......    " << p_right << "tl: " << lt << endl;
         cout << "round " << i << ":  " << (p_right | (p_left << 32));
     }
 
     uint64_t seq_swap = (p_left | (p_right << 32));
-    
-    return permutation(inv_p, seq_swap, 64,64);
+
+    return permutation(inv_p, seq_swap, 64, 64);
 }
 //
 int main(int argc, char* argv[])
