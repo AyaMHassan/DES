@@ -327,23 +327,23 @@ string decTo2Hexa(uint64_t n)
 
     return r;
 }
-void output_file(string path, string out) {
+void output_file(string path,string name ,string out) {
     string p;
     for (int i = 0; i < path.size(); i++) {
         if (path[i] == '\\') {
-            p = path + "\\output.txt";
+            p = path + "\\"+name +".txt";
             break;
         }
         else if (path[i] == '/') {
-            p = path + "/output.txt";
+            p = path + "/" + name + ".txt";
             break;
-        
+
         }
 
     }
-    //cout << p << endl;
+    cout << p << endl;
     ofstream output;
-    output.open(path);
+    output.open(p);
     if (output.is_open())
     {
         output << out;
@@ -418,6 +418,16 @@ uint64_t des(uint64_t seq, uint64_t* keys_, int t) {
 
     return permutation(inv_p, seq_swap, 64, 64);
 }
+string hex2ascii(string hex) {
+    string r = "";
+    for (int i = 0; i < 16; i++) {
+        char c = hexa2Bin(hex.substr(i, 2));
+        r += c;
+        i++;
+        cout << i << endl;
+    }
+    return r;
+}
 //
 int main(int argc, char* argv[])
 {
@@ -459,11 +469,20 @@ int main(int argc, char* argv[])
     else t = 1;
     uint64_t* des_keys = keys(key, t);
     string res = "";
+    string rtxt = "";
     for (int i = 0; i < n; i++) {
-        res += decToHexa(des(plaintext[i], des_keys, t));
+        string f= decToHexa(des(plaintext[i], des_keys, t));
+        if(t==0) res += f;
+        rtxt += hex2ascii(f);
     }
-    //cout << res;
-    output_file(out_path, res);
+    //cout << res+"--------"+rtxt;
+    if (t == 0) {
+        output_file(out_path, "hex", res);
+        output_file(out_path, "encrypted", rtxt);
+    }
+    else {
+        output_file(out_path, "decrypted", rtxt);
+    }
     MyReadFile.close();
     return 0;
 }
