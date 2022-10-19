@@ -215,32 +215,6 @@ uint64_t permutation(int permutation_arr[], uint64_t plaintext, int in, int size
     return output;
 }
 
-// convert hex text to array of 64-bit sequence
-uint64_t* read(string content)
-{
-    // size of 64-bit numbers
-    int content_size = content.size();
-    n = (4 * content_size) / 64;
-    // array of 64-bit numbers
-    uint64_t* plaintext = new  uint64_t[n];
-    int j = 0;
-    int k = 0;
-    string num ="";
-    // fill the array of 64-bit numbers
-    for (int i = 0; i< content_size; i++)
-    {
-        num = num + content[i];
-        k++;
-        if (k == 16)
-        {
-            k = 0;
-            plaintext[j] = hexa2Bin(num);
-            num = "";
-            j++;
-        }
-    }
-    return plaintext;
-}
 char hex_table(uint64_t n) {
     if (n == 0) return '0';
     else if (n == 1) return '1';
@@ -428,6 +402,34 @@ string hex2ascii(string hex) {
     }
     return r;
 }
+// convert hex text to array of 64-bit sequence
+uint64_t* read(string content)
+{
+    // size of 64-bit numbers
+    int content_size = content.size();
+    n = (8 * content_size) / 64;
+    // array of 64-bit numbers
+    uint64_t* plaintext = new  uint64_t[n];
+    int j = 0;
+    int k = 0;
+    string num = "";
+    int n;
+    // fill the array of 64-bit numbers
+    for (int i = 0; i< content_size; i++)
+    {
+        n = content[i];
+        num = num +  decTo2Hexa(n);
+        k++;
+        if (k == 8)
+        {
+            k = 0;
+            plaintext[j] = hexa2Bin(num);
+            num = "";
+            j++;
+        }
+    }
+    return plaintext;
+}
 //
 int main(int argc, char* argv[])
 {
@@ -439,8 +441,14 @@ int main(int argc, char* argv[])
     // input path
     string in_path = argv[1];
     //key
-    string k = argv[2];
-    uint64_t key = hexa2Bin(k);
+    string k;
+    string Hkey = "";
+    ifstream KeyFile(argv[2]);
+    while (getline (KeyFile, k)) {
+        Hkey = Hkey + k;
+    }
+    KeyFile.close();
+    uint64_t key = hexa2Bin(Hkey);
     // output path
     string out_path = argv[3];
     // encryption or decryption
