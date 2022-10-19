@@ -245,8 +245,8 @@ string convert_to_hex(uint64_t num) {
 }
 string decToHexa(uint64_t n)
 {
-    
-     char h[16];
+
+    char h[16];
 
     int i = 0;
     while (n != 0) {
@@ -262,8 +262,10 @@ string decToHexa(uint64_t n)
         }
 
         n = n / 16;
+        if (n == 0) h[i] = 48;
+        
     }
-
+    cout << i << endl;
     string r = "";
 
     for (int i = 15; i > -1; i--) {
@@ -272,6 +274,7 @@ string decToHexa(uint64_t n)
 
     return r;
 }
+
 string decTo2Hexa(uint64_t n)
 {
 
@@ -291,6 +294,7 @@ string decTo2Hexa(uint64_t n)
         }
 
         n = n / 16;
+        if (n == 0) h[i] = 48;
     }
 
     string r = "";
