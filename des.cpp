@@ -298,6 +298,35 @@ string decToHexa(uint64_t n)
 
     return r;
 }
+string decTo2Hexa(uint64_t n)
+{
+
+    char h[16];
+
+    int i = 0;
+    while (n != 0) {
+        int temp = 0;
+        temp = n % 16;
+        if (temp < 10) {
+            h[i] = temp + 48;
+            i++;
+        }
+        else {
+            h[i] = temp + 55;
+            i++;
+        }
+
+        n = n / 16;
+    }
+
+    string r = "";
+
+    for (int i = 1; i > -1; i--) {
+        r += h[i];
+    }
+
+    return r;
+}
 void output_file(string path, string out) {
     string p;
     for (int i = 0; i < path.size(); i++) {
