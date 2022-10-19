@@ -331,7 +331,7 @@ void output_file(string path,string name ,string out) {
     string p;
     for (int i = 0; i < path.size(); i++) {
         if (path[i] == '\\') {
-            p = path + "\\"+name +".txt";
+            p = path + '\\'+name +".txt";
             break;
         }
         else if (path[i] == '/') {
