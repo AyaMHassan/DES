@@ -262,8 +262,8 @@ string decToHexa(uint64_t n)
         }
 
         n = n / 16;
-        if (n == 0) h[i] = 48;
-        
+        if ((n == 0) && (i==15)) h[i] = 48;
+
     }
     cout << i << endl;
     string r = "";
@@ -278,7 +278,7 @@ string decToHexa(uint64_t n)
 string decTo2Hexa(uint64_t n)
 {
 
-    char h[16];
+    char h[2];
 
     int i = 0;
     while (n != 0) {
@@ -294,7 +294,7 @@ string decTo2Hexa(uint64_t n)
         }
 
         n = n / 16;
-        if (n == 0) h[i] = 48;
+        if ((n == 0) && (i == 1)) h[i] = 48;
     }
 
     string r = "";
