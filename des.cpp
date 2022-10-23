@@ -185,6 +185,7 @@ uint64_t onehexa2Bin(char hexa)
     else if (hexa == 'D' || hexa == 'd') return 13;
     else if (hexa == 'E' || hexa == 'e') return 14;
     else if (hexa == 'F' || hexa == 'f') return 15;
+    return -1;
     
 }
 // convert hex number to decimal or binary
@@ -232,6 +233,7 @@ char hex_table(uint64_t n) {
     else if (n == 13) return 'D';
     else if (n == 14) return 'E';
     else if (n == 15) return 'F';
+    return 'F';
     
 }
 
