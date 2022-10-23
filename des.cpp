@@ -267,7 +267,7 @@ string decToHexa(uint64_t n)
         if ((n == 0) && (i==15)) h[i] = 48;
 
     }
-    cout << i << endl;
+    //cout << i << endl;
     string r = "";
 
     for (int i = 15; i > -1; i--) {
@@ -404,7 +404,7 @@ string hex2ascii(string hex) {
         char c = hexa2Bin(hex.substr(i, 2));
         r += c;
         i++;
-        cout << i << endl;
+       // cout << i << endl;
     }
     return r;
 }
