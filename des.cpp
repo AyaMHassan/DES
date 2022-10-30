@@ -264,8 +264,12 @@ string decToHexa(uint64_t n)
         }
 
         n = n / 16;
-        if ((n == 0) && (i==15)) h[i] = 48;
+        
 
+    }
+    while (i < 16) {
+        h[i] = 48;
+        i++;
     }
     //cout << i << endl;
     string r = "";
@@ -280,7 +284,7 @@ string decToHexa(uint64_t n)
 string decTo2Hexa(uint64_t n)
 {
 
-    char h[2];
+    char h[2]{};
 
     int i = 0;
     while (n != 0) {
@@ -296,9 +300,12 @@ string decTo2Hexa(uint64_t n)
         }
 
         n = n / 16;
-        if ((n == 0) && (i == 1)) h[i] = 48;
+        
     }
-
+    while (i < 2) {
+        h[i] = 48;
+        i++;
+    }
     string r = "";
 
     for (int i = 1; i > -1; i--) {
@@ -307,15 +314,15 @@ string decTo2Hexa(uint64_t n)
 
     return r;
 }
-void output_file(string path,string name ,string out) {
-    string p;
+void output_file(string path, string name, string out) {
+    string p=path;
     for (int i = 0; i < path.size(); i++) {
         if (path[i] == '\\') {
-            p = path + '\\'+name +".txt";
+            p +=  '\\' + name + ".txt";
             break;
         }
         else if (path[i] == '/') {
-            p = path + "/" + name + ".txt";
+            p +=  "/" + name + ".txt";
             break;
 
         }
@@ -479,7 +486,7 @@ int main(int argc, char* argv[])
     // Create and open a text file
     ofstream MyFile(out_path);
     int t;
-    if (eOrD == "encryption") t = 0;
+    if (eOrD == "encrypted") t = 0;
     else t = 1;
     uint64_t* des_keys = keys(key, t);
     string res = "";
@@ -491,7 +498,7 @@ int main(int argc, char* argv[])
     }
     //cout << res+"--------"+rtxt;
     if (t == 0) {
-        output_file(out_path, "hex", res);
+        //output_file(out_path, "hex", res);
         output_file(out_path, "encrypted", rtxt);
     }
     else {
