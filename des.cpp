@@ -316,17 +316,23 @@ string decTo2Hexa(uint64_t n)
 }
 void output_file(string path, string name, string out) {
     string p=path;
+    bool b = true;
     for (int i = 0; i < path.size(); i++) {
-        if (path[i] == '\\') {
-            p +=  '\\' + name + ".txt";
-            break;
-        }
-        else if (path[i] == '/') {
-            p +=  "/" + name + ".txt";
-            break;
+        if (path[i] == '.') b = false;
+    }
+    if (b) {
+        for (int i = 0; i < path.size(); i++) {
+            if (path[i] == '\\') {
+                p += '\\' + name + ".txt";
+                break;
+            }
+            else if (path[i] == '/') {
+                p += "/" + name + ".txt";
+                break;
+
+            }
 
         }
-
     }
     cout << p << endl;
     ofstream output;
