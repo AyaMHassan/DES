@@ -487,18 +487,24 @@ int main(int argc, char* argv[])
     string text;
 
     // Read from the text file
-    ifstream MyReadFile(in_path); //filename.txt
-
-    // Use a while loop together with the getline() function to read the file line by line
-    while (getline(MyReadFile, text)) {
-        // append text to content
-        content = content + text;
+    std::ifstream myfile; myfile.open(in_path);
+    std::string mystring;
+    //string content;
+    if ( myfile.is_open() ) 
+    {
+        char mychar;
+        while ( myfile ) {
+        mychar = myfile.get();
+        content = content + mychar;
+        
+        }
+        // output_file("E:\\djaingo\\ml\\try3", "bassant",content);
     }
-
+    //
     //arrays of 64-bit numbers
     uint64_t* plaintext = read(content);
     // Close the file
-    MyReadFile.close();
+    //MyReadFile.close();
     // Create and open a text file
     ofstream MyFile(out_path);
     int t;
@@ -514,12 +520,12 @@ int main(int argc, char* argv[])
     }
     //cout << res+"--------"+rtxt;
     if (t == 0) {
-        //output_file(out_path, "hex", res);
+        //output_file("E:\\djaingo\\ml\\try3", "hex22", res);
         output_file(out_path, "encrypted", rtxt);
     }
     else {
         output_file(out_path, "decrypted", rtxt);
     }
-    MyReadFile.close();
+    //MyReadFile.close();
     return 0;
 }
