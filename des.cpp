@@ -467,21 +467,21 @@ int main(int argc, char* argv[])
     {
         return 1;
     }
+    // encryption or decryption
+    string eOrD = argv[1];
     // input path
-    string in_path = argv[1];
+    string in_path = argv[2];
     //key
     string k;
     string Hkey = "";
-    ifstream KeyFile(argv[2]);
+    ifstream KeyFile(argv[3]);
     while (getline (KeyFile, k)) {
         Hkey = Hkey + k;
     }
     KeyFile.close();
     uint64_t key = hexa2Bin(Hkey);
     // output path
-    string out_path = argv[3];
-    // encryption or decryption
-    string eOrD = argv[4];
+    string out_path = argv[4];
     // Create a text string, which is used to output the text file
     string content;
     string text;
@@ -502,7 +502,7 @@ int main(int argc, char* argv[])
     // Create and open a text file
     ofstream MyFile(out_path);
     int t;
-    if (eOrD == "encrypted") t = 0;
+    if (eOrD == "encrypt") t = 0;
     else t = 1;
     uint64_t* des_keys = keys(key, t);
     string res = "";
