@@ -318,7 +318,17 @@ void output_file(string path, string name, string out) {
     string p=path;
     bool b = true;
     for (int i = 0; i < path.size(); i++) {
-        if (path[i] == '.') b = false;
+
+        if (path[i] == '.')
+
+        {
+
+            b = false;
+
+            break;
+
+        }
+
     }
     if (b) {
         for (int i = 0; i < path.size(); i++) {
